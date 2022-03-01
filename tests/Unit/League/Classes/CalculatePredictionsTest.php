@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Unit\NewLeague;
+namespace Tests\Unit\League\Classes;
 
 use App\Services\League\Classes\League;
 use App\Services\League\Classes\Team;
-use App\Services\League\Listeners\CalculatePredictions;
+use App\Listeners\League\CalculatePredictions;
 use PHPUnit\Framework\MockObject\Stub\Stub;
 use PHPUnit\Framework\TestCase;
 

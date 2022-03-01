@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\NewLeague;
+namespace Tests\Unit\League\Classes;
 
 use App\Services\League\Classes\PlayStrategyResolver;
 use App\Services\League\Interfaces\PlayStrategyInterface;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\NewLeague;
+namespace Tests\Unit\League\Classes;
 
 use App\Services\League\Classes\CalculateGoals;
 use PHPUnit\Framework\MockObject\MockObject;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\NewLeague;
+namespace Tests\Unit\League\Classes;
 
 use App\Services\League\Classes\GameTeamResults;
 use App\Services\League\Classes\Team;
@@ -15,7 +15,7 @@ class TeamTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->team = new Team('Manchester');
+        $this->team = new Team('Manchester', 12);
         $this->gameTeamResults = $this->createStub(GameTeamResults::class);
     }
 

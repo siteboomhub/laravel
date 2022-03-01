@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\NewLeague;
+namespace Tests\Unit\League\Classes;
 
 use App\Services\League\Classes\CalculateGoals;
 use App\Services\League\Classes\Game;
@@ -68,7 +68,11 @@ class GameTest extends TestCase
     public function testThatWeCreateTeamResultsForTwoTeams($team1, $team2)
     {
         $team = $this->createStub(Team::class);
-        $team->method('getUuid')->willReturnOnConsecutiveCalls($team1['uuid'], $team2['uuid']);
+
+        $team->method('getUuid')->willReturnOnConsecutiveCalls(
+            $team1['uuid'], $team2['uuid'],
+            $team1['uuid'], $team2['uuid']
+        );
 
         $calculateGoalsMock = $this->getMockBuilder(CalculateGoals::class)
             ->disableOriginalConstructor()
