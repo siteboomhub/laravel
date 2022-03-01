@@ -1,40 +1,32 @@
 <?php
 
-namespace Tests\Unit\NewLeague;
+namespace Tests\Unit\League\Classes;
 
 use App\Services\League\Classes\League;
 use App\Services\League\Classes\LeagueInterface;
 use App\Services\League\Responses\LeagueResults;
-use App\Services\League\Classes\LeagueStorage;
+use App\Services\League\Repositories\LeagueRepository;
 use App\Services\League\Factories\LeagueFactory;
-use App\Services\League\Factories\LeagueResultsFactory;
 use Illuminate\Contracts\Events\Dispatcher;
 use PHPUnit\Framework\TestCase;
 
 class LeagueInterfaceTest extends TestCase
 {
     public Dispatcher $dispatcher;
-    private LeagueStorage $leagueStorage;
+    private LeagueRepository $leagueStorage;
     private LeagueFactory $leagueFactory;
-
     private LeagueInterface $leagueInterface;
-    /**
-     * @var LeagueResultsFactory|mixed|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private mixed $leagueResultsFactory;
 
     protected function setUp(): void
     {
         $this->dispatcher = $this->createMock(Dispatcher::class);
-        $this->leagueStorage = $this->createMock(LeagueStorage::class);
+        $this->leagueStorage = $this->createMock(LeagueRepository::class);
         $this->leagueFactory = $this->createMock(LeagueFactory::class);
-        $this->leagueResultsFactory = $this->createMock(LeagueResultsFactory::class);
 
         $this->leagueInterface = new LeagueInterface(
             $this->dispatcher,
             $this->leagueStorage,
-            $this->leagueFactory,
-            $this->leagueResultsFactory
+            $this->leagueFactory
         );
     }
 
@@ -142,10 +134,7 @@ class LeagueInterfaceTest extends TestCase
 
         $leagueResults = $this->createMock(LeagueResults::class);
 
-        $leagueResults->method('format')->willReturn([]);
-
-        $this->leagueResultsFactory->method('build')
-            ->willReturn($leagueResults);
+        $leagueResults->method('build')->willReturn([]);
 
         $this->leagueStorage
             ->expects($this->once())
