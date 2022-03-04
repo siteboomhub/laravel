@@ -11,8 +11,7 @@ class LeagueFactoryRestore
 {
     public function __construct(
         private Dispatcher            $dispatcher,
-        private PlayStrategyResolver  $playStrategyResolver,
-        private MatchesPlannerFactory $matchesPlannerFactory)
+        private PlayStrategyResolver  $playStrategyResolver)
     {
     }
 
@@ -30,11 +29,10 @@ class LeagueFactoryRestore
                 $uuid,
                 $teams,
                 $this->playStrategyResolver,
-                $this->matchesPlannerFactory,
                 $this->dispatcher,
-                $matches_per_week
+                $matches_per_week,
+                $matches,
             ),
-            $matches,
             $current_week,
             $last_played_matches
         );

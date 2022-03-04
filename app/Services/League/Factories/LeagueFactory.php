@@ -21,20 +21,17 @@ class LeagueFactory
 
     public function build(int $matches_per_week, int $teams_number): League
     {
+        $teams = $this->teamsBuilder->build($teams_number);
+
         return new League(
             new LeagueCreating(
                 uniqid(),
-                $this->buildTeams($teams_number),
+                $teams,
                 $this->playStrategyResolver,
-                $this->matchesPlannerFactory,
                 $this->dispatcher,
-                $matches_per_week
+                $matches_per_week,
+                $this->matchesPlannerFactory->build($teams)
             ),
         );
-    }
-
-    private function buildTeams(int $teams_number): array
-    {
-        return $this->teamsBuilder->build($teams_number);
     }
 }

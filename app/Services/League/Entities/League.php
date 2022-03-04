@@ -12,18 +12,11 @@ class League
 {
     public function __construct(
         private LeagueCreating        $leagueCreating,
-        private array                 $matches = [],
         private int                   $current_week = 0,
         private array                 $last_played_matches = []
     )
     {
         $this->checkCanCreateLeague();
-
-        if (!$matches) {
-            $this->matches = $this->leagueCreating->getMatchesPlannerFactory()->build(
-                $this->getTeams()
-            );
-        }
     }
 
     #[Pure] public function getUuid(): string
@@ -41,9 +34,9 @@ class League
         return $this->current_week;
     }
 
-    public function getMatches(): array
+    #[Pure] public function getMatches(): array
     {
-        return $this->matches;
+        return $this->leagueCreating->getMatches();
     }
 
     #[Pure] public function getMatchesPerWeek(): int
@@ -58,7 +51,7 @@ class League
 
     public function play(string $type = 'week')
     {
-        if ($this->current_week === count($this->matches) / $this->getMatchesPerWeek()) {
+        if ($this->current_week === count($this->getMatches()) / $this->getMatchesPerWeek()) {
             throw new LeagueAlreadyFinishedException('This League already finished');
         }
 
@@ -67,7 +60,7 @@ class League
         [
             'matches' => $this->last_played_matches,
             'week' => $this->current_week
-        ] = $playStrategy->play($this->getMatchesPerWeek(), $this->current_week, $this->matches);
+        ] = $playStrategy->play($this->getMatchesPerWeek(), $this->current_week, $this->getMatches());
 
         $this->leagueCreating->getDispatcher()->dispatch(LeaguePlayedEvent::class, $this);
     }

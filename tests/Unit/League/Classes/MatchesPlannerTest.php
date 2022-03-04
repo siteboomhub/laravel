@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\League\Classes;
 
-use App\Services\League\Classes\Game;
-use App\Services\League\Classes\MatchesPlanner;
+use App\Services\League\Entities\Game;
+use App\Services\League\Factories\MatchesPlannerFactory;
 use App\Services\League\Factories\GameFactory;
 use PHPUnit\Framework\TestCase;
 
@@ -32,7 +32,7 @@ class MatchesPlannerTest extends TestCase
             $this->createStub(Game::class)
         );
 
-        $planner = new MatchesPlanner(
+        $planner = new MatchesPlannerFactory(
             $teams,
             $game_factory
         );
