@@ -3,7 +3,7 @@
 namespace Tests\Unit\League\Classes;
 
 use App\Services\League\Classes\League;
-use App\Services\League\Classes\LeagueStorage;
+use App\Services\League\Repositories\LeagueRepository;
 use App\Services\League\Factories\LeagueFactoryRestore;
 use Illuminate\Contracts\Cache\Repository;
 use PHPUnit\Framework\TestCase;
@@ -14,7 +14,7 @@ class LeagueStorageTest extends TestCase
 
     private LeagueFactoryRestore $restoreFactory;
 
-    private LeagueStorage $leagueStorage;
+    private LeagueRepository $leagueStorage;
 
     protected function setUp(): void
     {
@@ -22,7 +22,7 @@ class LeagueStorageTest extends TestCase
 
         $this->restoreFactory = $this->createMock(LeagueFactoryRestore::class);
 
-        $this->leagueStorage = new LeagueStorage(
+        $this->leagueStorage = new LeagueRepository(
             $this->storage,
             $this->restoreFactory
         );
