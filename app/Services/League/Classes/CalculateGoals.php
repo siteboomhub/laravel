@@ -9,7 +9,7 @@ class CalculateGoals
     private const LOSE_POINT = 2;
 
     /**
-     * @param Team[] $teams
+     * @param \App\Services\League\Entities\Team[] $teams
      */
     public function __construct(private array $teams)
     {

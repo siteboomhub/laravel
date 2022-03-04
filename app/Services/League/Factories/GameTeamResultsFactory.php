@@ -2,7 +2,7 @@
 
 namespace App\Services\League\Factories;
 
-use App\Services\League\Classes\GameTeamResults;
+use App\Services\League\Entities\GameTeamResults;
 
 class GameTeamResultsFactory
 {

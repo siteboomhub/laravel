@@ -2,7 +2,7 @@
 
 namespace App\Services\League\Factories;
 
-use App\Services\League\Classes\League;
+use App\Services\League\Entities\League;
 use App\Services\League\Classes\PlayStrategyResolver;
 use App\Services\League\ValueObjects\LeagueCreating;
 use Illuminate\Contracts\Events\Dispatcher;

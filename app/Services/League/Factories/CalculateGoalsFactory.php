@@ -3,7 +3,7 @@
 namespace App\Services\League\Factories;
 
 use App\Services\League\Classes\CalculateGoals;
-use App\Services\League\Classes\Team;
+use App\Services\League\Entities\Team;
 use JetBrains\PhpStorm\Pure;
 
 class CalculateGoalsFactory
