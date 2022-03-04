@@ -7,26 +7,24 @@ use App\Services\League\Classes\LeagueInterface;
 use App\Services\League\Responses\LeagueResults;
 use App\Services\League\Repositories\LeagueRepository;
 use App\Services\League\Factories\LeagueFactory;
-use Illuminate\Contracts\Events\Dispatcher;
 use PHPUnit\Framework\TestCase;
 
 class LeagueInterfaceTest extends TestCase
 {
-    public Dispatcher $dispatcher;
     private LeagueRepository $leagueStorage;
     private LeagueFactory $leagueFactory;
     private LeagueInterface $leagueInterface;
 
     protected function setUp(): void
     {
-        $this->dispatcher = $this->createMock(Dispatcher::class);
         $this->leagueStorage = $this->createMock(LeagueRepository::class);
         $this->leagueFactory = $this->createMock(LeagueFactory::class);
+        $leagueResults = $this->createStub(LeagueResults::class);
 
         $this->leagueInterface = new LeagueInterface(
-            $this->dispatcher,
             $this->leagueStorage,
-            $this->leagueFactory
+            $this->leagueFactory,
+            $leagueResults
         );
     }
 
@@ -45,7 +43,8 @@ class LeagueInterfaceTest extends TestCase
         $this->leagueFactory
             ->expects($this->once())
             ->method('build')
-            ->with($this->equalTo($matches_per_week), $this->equalTo($teams_number));
+            ->with($this->equalTo($matches_per_week), $this->equalTo($teams_number))
+            ->willReturn($this->createStub(League::class));
 
         $this->leagueInterface->createAndSave($matches_per_week, $teams_number);
     }
