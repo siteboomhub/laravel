@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Services\League\Classes;
+namespace App\Services\League\Entities;
 
 use App\Exceptions\League\GameMembersException;
+use App\Services\League\Classes\CalculateGoals;
 use App\Services\League\Factories\CalculateGoalsFactory;
 use App\Services\League\Factories\GameTeamResultsFactory;
 use JetBrains\PhpStorm\Pure;
@@ -26,7 +27,9 @@ class Game
             throw new GameMembersException('Game members number needs be only 2');
         }
 
-        $this->goalsCalculatorService = $calculateGoalsFactory->build($this->teams);
+        $this->goalsCalculatorService = $calculateGoalsFactory->build(
+            $this->getTeams()
+        );
     }
 
     public function getTeams(): array

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\League\Classes;
+namespace App\Services\League\Entities;
 
 class Team
 {
