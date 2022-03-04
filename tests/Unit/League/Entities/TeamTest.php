@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Unit\League\Classes;
+namespace Tests\Unit\League\Entities;
 
-use App\Services\League\Classes\GameTeamResults;
-use App\Services\League\Classes\Team;
+use App\Services\League\Entities\GameTeamResults;
+use App\Services\League\Entities\Team;
 
 use PHPUnit\Framework\TestCase;
 

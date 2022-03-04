@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\League\Classes;
 
-use App\Services\League\Classes\League;
+use App\Services\League\Entities\League;
 use App\Services\League\Classes\LeagueInterface;
 use App\Services\League\Responses\LeagueResults;
 use App\Services\League\Repositories\LeagueRepository;

@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\League\Classes;
 
-use App\Services\League\Classes\League;
+use App\Services\League\Entities\League;
 use App\Services\League\Repositories\LeagueRepository;
 use App\Services\League\Factories\LeagueFactoryRestore;
 use Illuminate\Contracts\Cache\Repository;

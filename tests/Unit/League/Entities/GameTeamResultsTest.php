@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Unit\League\Classes;
+namespace Tests\Unit\League\Entities;
 
-use App\Services\League\Classes\GameTeamResults;
+use App\Services\League\Entities\GameTeamResults;
 use PHPUnit\Framework\TestCase;
 
 class GameTeamResultsTest extends TestCase

@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Unit\League\Classes;
+namespace Tests\Unit\League\Entities;
 
 use App\Services\League\Classes\CalculateGoals;
-use App\Services\League\Classes\Game;
-use App\Services\League\Classes\Team;
+use App\Services\League\Entities\Game;
+use App\Services\League\Entities\Team;
 use App\Exceptions\League\GameMembersException;
 use App\Services\League\Factories\CalculateGoalsFactory;
 use App\Services\League\Factories\GameTeamResultsFactory;

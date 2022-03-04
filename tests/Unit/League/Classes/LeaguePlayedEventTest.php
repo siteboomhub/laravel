@@ -2,8 +2,9 @@
 
 namespace Tests\Unit\League\Classes;
 
-use App\Services\League\Classes\League;
-use App\Services\Events\League\LeaguePlayedEvent;
+use App\Services\League\Entities\League;
+use App\Events\League\LeaguePlayedEvent;
+use App\Services\League\Repositories\LeagueRepository;
 use Illuminate\Contracts\Cache\Repository;
 use PHPUnit\Framework\TestCase;
 
@@ -17,13 +18,13 @@ class LeaguePlayedEventTest extends TestCase
     public function provider()
     {
         return [
-            ['team 1', 'team 2']
+            [ ['team 1'], ['team 2'] ]
         ];
     }
 
     protected function setUp(): void
     {
-        $this->storage = $this->createStub(LeagueStorage::class);
+        $this->storage = $this->createStub(LeagueRepository::class);
     }
 
     /**
@@ -37,7 +38,7 @@ class LeaguePlayedEventTest extends TestCase
 
         $this->storage->method('get')->willReturn($league);
 
-        $leaguePlayedEvent = new LeaguePlayedEvent($this->storage, 'uuid');
+        $leaguePlayedEvent = new LeaguePlayedEvent($league);
 
         $this->assertEquals($teams, $leaguePlayedEvent->getTeams());
     }

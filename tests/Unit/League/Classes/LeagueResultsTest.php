@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\League\Classes;
 
-use App\Services\League\Classes\League;
+use App\Services\League\Entities\League;
 use App\Services\League\Responses\LeagueResults;
-use App\Services\League\Classes\Team;
+use App\Services\League\Entities\Team;
 use PHPUnit\Framework\TestCase;
 
 class LeagueResultsTest extends TestCase
@@ -23,19 +23,21 @@ class LeagueResultsTest extends TestCase
 
         $this->league->method('getTeams')->willReturn([$this->team]);
 
-        $this->leagueResults = new LeagueResults($this->league);
+        $this->leagueResults = new LeagueResults();
     }
 
     public function provider()
     {
         return [
-            1
+            [1]
         ];
     }
 
     public function testThatResultFormatIsCorrect()
     {
-        $results = $this->leagueResults->format();
+        $results = $this->leagueResults->build(
+            $this->league
+        );
 
         $this->assertArrayHasKey('current_week', $results);
         $this->assertArrayHasKey('teams', $results);
@@ -59,9 +61,13 @@ class LeagueResultsTest extends TestCase
      */
     public function testThatResultsAreCorrect($current_week)
     {
-        $results = $this->leagueResults->format();
+        $this->league->method('getCurrentWeek')->willReturn($current_week);
+
+        $results = $this->leagueResults->build(
+            $this->league
+        );
 
         $this->assertEquals($current_week, $results['current_week']);
-        $this->assertEquals([$this->team], $results['teams']);
+        $this->assertCount(1, $results['teams']);
     }
 }
