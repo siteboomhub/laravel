@@ -2,17 +2,16 @@
 
 namespace Tests\Unit\League\Classes;
 
-use App\Services\League\Classes\TeamsBuilder;
+use App\Services\League\Factories\TeamsBuilderFactory;
 use App\Exceptions\League\NotEnoughTeamsException;
 use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\TestCase;
 
 class TeamsBuilderTest extends TestCase
 {
-    private Storage $storage;
+    private Filesystem $storage;
 
-    private TeamsBuilder $teamsBuilder;
+    private TeamsBuilderFactory $teamsBuilder;
 
     private function getFileContent()
     {
@@ -44,7 +43,7 @@ class TeamsBuilderTest extends TestCase
     protected function setUp(): void
     {
         $this->storage = $this->createStub(Filesystem::class);
-        $this->teamsBuilder = new TeamsBuilder($this->storage);
+        $this->teamsBuilder = new TeamsBuilderFactory($this->storage);
 
         $this->storage->method('get')->willReturn(
             $this->getFileContent()
