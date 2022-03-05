@@ -2,7 +2,7 @@
 
 namespace App\Services\League\Repositories;
 
-use App\Services\League\Classes\League;
+use App\Services\League\Entities\League;
 use App\Services\League\Factories\LeagueFactoryRestore;
 use Illuminate\Contracts\Cache\Repository;
 

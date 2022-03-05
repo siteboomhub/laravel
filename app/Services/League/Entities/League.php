@@ -2,9 +2,9 @@
 
 namespace App\Services\League\Entities;
 
-use App\Services\League\Events\LeaguePlayedEvent;
-use App\Services\League\Exceptions\LeagueAlreadyFinishedException;
-use App\Services\League\Exceptions\MatchesNumberException;
+use App\Events\League\LeaguePlayedEvent;
+use App\Exceptions\League\LeagueAlreadyFinishedException;
+use App\Exceptions\League\MatchesNumberException;
 use App\Services\League\ValueObjects\LeagueCreating;
 use JetBrains\PhpStorm\Pure;
 
