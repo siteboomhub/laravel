@@ -4,7 +4,6 @@ namespace App\Services\League\Factories;
 
 use App\Services\League\Entities\League;
 use App\Services\League\Classes\PlayStrategyResolver;
-use App\Services\League\Classes\TeamsBuilder;
 use App\Services\League\ValueObjects\LeagueCreating;
 use Illuminate\Contracts\Events\Dispatcher;
 
@@ -14,7 +13,7 @@ class LeagueFactory
         private Dispatcher            $dispatcher,
         private PlayStrategyResolver  $playStrategyResolver,
         private MatchesPlannerFactory $matchesPlannerFactory,
-        private TeamsBuilder          $teamsBuilder
+        private TeamsBuilderFactory   $teamsBuilder
     )
     {
     }
@@ -30,7 +29,7 @@ class LeagueFactory
                 $this->playStrategyResolver,
                 $this->dispatcher,
                 $matches_per_week,
-                $this->matchesPlannerFactory->build($teams)
+                $this->matchesPlannerFactory->plan($teams)
             ),
         );
     }
