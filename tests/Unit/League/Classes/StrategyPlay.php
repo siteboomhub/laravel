@@ -1,10 +1,10 @@
 <?php
 
-namespace Unit\League\Classes;
+namespace Tests\Unit\League\Classes;
 
-use App\Services\League\Classes\Game;
-use App\Services\League\Classes\Team;
-use App\Services\League\Strategies\PlayWeekStrategy;
+use App\Services\League\Entities\Game;
+use App\Services\League\Entities\Team;
+use App\Services\League\Strategies\PlayStrategyInterface;
 use PHPUnit\Framework\TestCase;
 
 abstract class StrategyPlay extends TestCase
@@ -47,7 +47,7 @@ abstract class StrategyPlay extends TestCase
             [$team_uuids[2] => $teams[$team_uuids[2]], $team_uuids[3] => $teams[$team_uuids[3]]]
         );
         $this->team->method('getUuid')->willReturnOnConsecutiveCalls(
-            $team_uuids
+            ...$team_uuids
         );
     }
 }

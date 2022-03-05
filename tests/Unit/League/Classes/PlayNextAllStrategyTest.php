@@ -3,7 +3,6 @@
 namespace Tests\Unit\League\Classes;
 
 use App\Services\League\Strategies\PlayNextAllStrategy;
-use Unit\League\Classes\StrategyPlay;
 
 class PlayNextAllStrategyTest extends StrategyPlay
 {
@@ -11,22 +10,27 @@ class PlayNextAllStrategyTest extends StrategyPlay
     {
         return [
             [
-                '123' => 2,
-                '234' => 3,
-                '12345' => 2,
-                '12346' => 3
+                [
+                    'a123' => 2,
+                    'a234' => 3,
+                    'a12345' => 2,
+                    'a12346' => 3
+                ]
             ]
         ];
     }
 
-    /*
+    /**
      * @dataProvider providerForFourTeams
      */
     public function testThatResultsAreWithCorrectStructure($teams)
     {
-        $this->checkThatResultsAreWithCorrectStructure($teams, new PlayNextAllStrategy);
+        $this->checkThatResultsAreWithCorrectStructure($teams, new PlayNextAllStrategy());
     }
 
+    /**
+     * @dataProvider providerForFourTeams
+     */
     public function testThatCurrentWeekIsLastAfterPlayWhenStarted($teams)
     {
         $per_week = 1;
@@ -46,6 +50,9 @@ class PlayNextAllStrategyTest extends StrategyPlay
         $this->assertEquals((count($matches) / $per_week), $results['week']);
     }
 
+    /**
+     * @dataProvider providerForFourTeams
+     */
     public function testThatCurrentWeekIsLastAfterPlayWhenAnyAllowed($teams)
     {
         $this->match->method('getTeams')->willReturn([$this->team, $this->team]);

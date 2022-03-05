@@ -3,7 +3,7 @@
 namespace Tests\Unit\League\Classes;
 
 use App\Services\League\Classes\PlayStrategyResolver;
-use App\Services\League\Interfaces\PlayStrategyInterface;
+use App\Services\League\Strategies\PlayStrategyInterface;
 use PHPUnit\Framework\TestCase;
 
 class PlayStrategyResolverTest extends TestCase
