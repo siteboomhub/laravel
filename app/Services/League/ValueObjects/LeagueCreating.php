@@ -6,7 +6,7 @@ use App\Services\League\Classes\PlayStrategyResolver;
 use App\Services\League\Entities\Team;
 use Illuminate\Contracts\Events\Dispatcher;
 
-final class LeagueCreating
+class LeagueCreating
 {
     /**
      * @param Team[] $teams
