@@ -9,22 +9,27 @@ use PHPUnit\Framework\TestCase;
 
 class MatchesPlannerTest extends TestCase
 {
-    public function dataProvider()
+    private MatchesPlannerFactory $planner;
+
+    public function expectedAmountProvider()
     {
         return [
             [ [1, 2, 3, 4], 12],
-            [ [1, 2, 3], 6],
-            [ [1, 2, 3, 4, 5], 20]
+            [ [1, 2, 3, 4, 5, 6], 30],
+            [ [1, 2, 3, 4, 5, 6, 7, 8], 56]
         ];
     }
 
-    /**
-     * @param $teams
-     * @param $expected_count
-     * @throws \App\Exceptions\League\GameMembersException
-     * @dataProvider dataProvider
-     */
-    public function testThatMatchesNumberCalculatedCorrectly($teams, $expected_count)
+    public function teamsAmountProvider()
+    {
+        return [
+            [ [1, 2, 3, 4], 2],
+            [ [1, 2, 3, 4, 5, 6], 4],
+            [ [1, 2, 3, 4, 5, 6, 7, 8], 2]
+        ];
+    }
+
+    protected function setUp(): void
     {
         $game_factory = $this->createStub(GameFactory::class);
 
@@ -32,14 +37,37 @@ class MatchesPlannerTest extends TestCase
             $this->createStub(Game::class)
         );
 
-        $planner = new MatchesPlannerFactory(
-            $teams,
+        $this->planner = new MatchesPlannerFactory(
             $game_factory
         );
+    }
 
-        $matches = $planner->plan();
+    /**
+     * @param $teams
+     * @param $expected_count
+     * @dataProvider expectedAmountProvider
+     * @throws \App\Exceptions\League\GameMembersException
+     */
+    public function testThatMatchesNumberCalculatedCorrectly($teams, $expected_count)
+    {
+        $matches = $this->planner->plan($teams);
 
         $this->assertCount($expected_count, $matches);
+
+    }
+
+    /**
+     * @dataProvider teamsAmountProvider
+     */
+    public function testThatMatchesOrderIsCorrectly(array $teams, int $per_week)
+    {
+        $matches = $this->planner->plan($teams);
+
+        $grouped_matches = array_chunk($matches, $per_week);
+
+        foreach ($grouped_matches as $grouped_match){
+            $this->assertEquals($grouped_match, array_unique($grouped_match));
+        }
 
     }
 }
