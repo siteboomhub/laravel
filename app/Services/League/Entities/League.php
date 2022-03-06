@@ -42,6 +42,14 @@ class League
         return $this->leagueCreating->getMatchesPerWeek();
     }
 
+    #[Pure] public function isLeagueFinished(): bool
+    {
+        return $this->current_week === count($this->getMatches()) / $this->getMatchesPerWeek();
+    }
+
+    /**
+     * @return Game[]
+     */
     public function getLastPlayedMatches(): array
     {
         return $this->last_played_matches;
@@ -49,7 +57,7 @@ class League
 
     public function play(string $type = 'week')
     {
-        if ($this->current_week === count($this->getMatches()) / $this->getMatchesPerWeek()) {
+        if ($this->isLeagueFinished()) {
             throw new LeagueAlreadyFinishedException('This League already finished');
         }
 
