@@ -1,43 +1,42 @@
 <?php
 
-namespace Tests\Unit\League\Classes;
+namespace Tests\Unit\League\Entities;
 
-use App\Services\League\Classes\League;
+use App\Services\League\Entities\League;
 use App\Services\League\Classes\PlayStrategyResolver;
-use App\Services\League\PlayStrategyInterface;
+use App\Services\League\Strategies\PlayStrategyInterface;
 use App\Events\League\LeaguePlayedEvent;
-use App\Services\League\Exceptions\LeagueAlreadyFinishedException;
-use App\Services\League\Exceptions\MatchesNumberException;
-use App\Services\League\Factories\MatchesPlannerFactory;
+use App\Exceptions\League\LeagueAlreadyFinishedException;
+use App\Services\League\ValueObjects\LeagueCreating;
 use Illuminate\Contracts\Events\Dispatcher;
 use PHPUnit\Framework\TestCase;
 
 class LeagueTest extends TestCase
 {
     private PlayStrategyResolver $playStrategyResolver;
-    private MatchesPlannerFactory $matchesPlannerFactory;
     private Dispatcher $dispatcher;
 
     private PlayStrategyInterface $playStrategyContract;
 
+    private LeagueCreating $leagueCreating;
+
     protected function setUp(): void
     {
         $this->playStrategyResolver = $this->createMock(PlayStrategyResolver::class);
-        $this->matchesPlannerFactory = $this->createMock(MatchesPlannerFactory::class);
         $this->dispatcher = $this->createMock(Dispatcher::class);
         $this->playStrategyContract = $this->createMock(PlayStrategyInterface::class);
+        $this->leagueCreating = $this->createMock(LeagueCreating::class);
+
+        $this->leagueCreating->method('getMatchesPerWeek')
+            ->willReturn(2);
     }
 
     private function getWorkedLeague($teams_number = 4)
     {
         return new League(
-            uniqid(),
-            array_fill(0, $teams_number, []),
-            $this->playStrategyResolver,
-            $this->matchesPlannerFactory,
-            $this->dispatcher,
+            $this->leagueCreating,
             2,
-            [[], [], [], []]
+            array_fill(0, $teams_number, [])
         );
     }
 
@@ -47,49 +46,6 @@ class LeagueTest extends TestCase
             ['week'],
             ['all']
         ];
-    }
-
-    public function testThatMatchesNotEnoughForLeaguePlay()
-    {
-        //think about formula
-        // 1 game per week 2 teams
-        // 2 game per week 3 teams
-        // 3 game per week 3 teams
-        // 4 game per week 4 teams
-        // 5 game per week 4 teams
-
-        // 1, 2, 3, 4
-
-        // 1, 2 - one
-        // 2, 3 - second
-        // 3, 4 - third
-        // 1, 3
-        // 1, 4
-        //
-        $this->expectException(MatchesNumberException::class);
-
-        new League(
-            uniqid(),
-            [[], [], [], []],
-            $this->playStrategyResolver,
-            $this->matchesPlannerFactory,
-            $this->dispatcher,
-            20
-        );
-    }
-
-    public function testThatMatchesPerWeekIsLessThanMaxAllowed()
-    {
-        $this->expectException(MatchesNumberException::class);
-
-        new League(
-            uniqid(),
-            [[], [], [], []],
-            $this->playStrategyResolver,
-            $this->matchesPlannerFactory,
-            $this->dispatcher,
-            20
-        );
     }
 
     public function testThatUuidIsString()
@@ -102,6 +58,10 @@ class LeagueTest extends TestCase
     public function testThatTeamsNumberIsTheSame()
     {
         $teams_amount = 5;
+
+        $this->leagueCreating->method('getTeams')->willReturn(
+            array_fill(0, $teams_amount, [])
+        );
 
         $league = $this->getWorkedLeague($teams_amount);
 
@@ -129,10 +89,16 @@ class LeagueTest extends TestCase
             ->with($this->equalTo($time))
             ->willReturn($this->playStrategyContract);
 
+        $this->leagueCreating->method('getPlayStrategyResolver')->willReturn(
+            $this->playStrategyResolver
+        );
+
         $this->dispatcher
             ->expects($this->once())
             ->method('dispatch')
             ->with(LeaguePlayedEvent::class, $league);
+
+        $this->leagueCreating->method('getDispatcher')->willReturn($this->dispatcher);
 
         $league->play($time);
 
@@ -141,15 +107,14 @@ class LeagueTest extends TestCase
 
     public function testThatWeReceiveExceptionWhenWantToPlayFinishedLeague()
     {
+        $this->leagueCreating->method('getMatches')
+            ->willReturn(
+                array_fill(0, 12, [])
+            );
+
         $league = new League(
-            uniqid(),
-            [[], [], [], []],
-            $this->playStrategyResolver,
-            $this->matchesPlannerFactory,
-            $this->dispatcher,
-            2,
-            array_fill(0, 12, []),
-            current_week: 6
+            $this->leagueCreating,
+            6,
         );
 
         $this->expectException(LeagueAlreadyFinishedException::class);
