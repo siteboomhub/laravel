@@ -18,7 +18,7 @@ class Team
 
     private int $gd = 0;
 
-    public function __construct(private string $name, private int $prediction)
+    public function __construct(private string $name, private float $prediction)
     {
         $this->uuid = uniqid();
     }
@@ -33,7 +33,7 @@ class Team
         return $this->name;
     }
 
-    public function getPrediction(): int
+    public function getPrediction(): float
     {
         return $this->prediction;
     }

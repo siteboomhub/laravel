@@ -72,4 +72,24 @@ class Game
 
         return $results;
     }
+
+    #[Pure] public function areTeamsDifferent(Game $game): bool
+    {
+        $result = true;
+
+        $current_teams = [];
+
+        foreach ($this->getTeams() as $team){
+            $current_teams[] = $team->getUuid();
+        }
+
+        foreach ($game->getTeams() as $team) {
+            if (in_array($team->getUuid(), $current_teams)) {
+                $result = false;
+                break;
+            }
+        }
+
+        return $result;
+    }
 }
