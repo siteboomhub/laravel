@@ -15,7 +15,7 @@ class MatchDrawnPredictionsCalculatingStrategy extends MatchPredictionsCalculati
     {
         $this->teams_amount = count($teams);
 
-        $prediction_value = round(self::DRAWN_POINTS_VALUE / $this->getMaxScore() * 100, 1);
+        $prediction_value = self::DRAWN_POINTS_VALUE / $this->getMaxScore() * 100;
 
         $team_uuids = $this->getTeamsUuids();
 

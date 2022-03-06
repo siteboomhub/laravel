@@ -71,7 +71,7 @@ class Team
 
     public function setPrediction(float $value)
     {
-        $this->prediction = $value;
+        $this->prediction = round($value, 1);
     }
 
     public function addGameResults(GameTeamResults $gameTeamResults)

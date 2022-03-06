@@ -10,7 +10,7 @@ class MatchWinPredictionsCalculatingStrategy extends MatchPredictionsCalculating
     {
         $this->teams_amount = count($teams);
 
-        $prediction_value = round(self::WIN_POINTS_VALUE / $this->getMaxScore() * 100, 1);
+        $prediction_value = self::WIN_POINTS_VALUE / $this->getMaxScore() * 100;
 
         $team_uuids = $this->getTeamsUuids();
 
