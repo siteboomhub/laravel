@@ -13,17 +13,17 @@ class LeagueCreatingValidationTest extends TestCase
     {
         $this->expectException(MatchesNumberException::class);
 
-        $leagueValidation = new LeagueCreatingValidation(2, 2);
+        $leagueValidation = new LeagueCreatingValidation();
 
-        $leagueValidation->validate();
+        $leagueValidation->validate(2, 2);
     }
 
     public function testThatMatchesPerWeekIsLessThanMaxAllowed()
     {
         $this->expectException(AmountOfTeamsOnlyOddException::class);
 
-        $leagueValidation = new LeagueCreatingValidation(2, 5);
+        $leagueValidation = new LeagueCreatingValidation();
 
-        $leagueValidation->validate();
+        $leagueValidation->validate(2, 5);
     }
 }
