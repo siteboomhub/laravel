@@ -14,7 +14,7 @@ class GameFactory
     }
 
     /**
-     * @throws \App\Services\League\Exceptions\GameMembersException
+     * @throws \App\Exceptions\League\GameMembersException
      */
     public function build(array $teams): Game
     {
