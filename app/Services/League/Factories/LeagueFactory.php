@@ -29,7 +29,7 @@ class LeagueFactory
                 $this->playStrategyResolver,
                 $this->dispatcher,
                 $matches_per_week,
-                $this->matchesPlannerFactory->plan($teams)
+                $this->matchesPlannerFactory->plan($teams, $matches_per_week)
             ),
         );
     }

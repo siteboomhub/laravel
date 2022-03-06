@@ -69,7 +69,7 @@ class Team
     }
 
 
-    public function setPrediction(int $value)
+    public function setPrediction(float $value)
     {
         $this->prediction = $value;
     }
