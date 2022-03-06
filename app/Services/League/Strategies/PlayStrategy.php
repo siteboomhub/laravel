@@ -31,30 +31,20 @@ abstract class PlayStrategy implements PlayStrategyInterface
     {
         $this->current_week++;
 
-        $results = [];
+        $played_matches = [];
 
-        for ($i = 1; $i <= $this->matches_per_week; $i++) {
+        for ($i = 0; $i < $this->matches_per_week; $i++) {
 
             $match = $this->getMatch($i);
 
             $match->play();
 
-            $teams = $match->getTeams();
-            $mappedGoals = $match->getMappedGoals();
-
-            $results[] = [
-                'first_team_name' => $teams[0]->getName(),
-                'score' => [
-                    $mappedGoals[$teams[0]->getUuid()],
-                    $mappedGoals[$teams[1]->getUuid()]
-                ],
-                'last_team_name' => $teams[1]->getName()
-            ];
+            $played_matches[] = $match;
         }
 
         return [
             'week' => $this->current_week,
-            'matches' => $results
+            'matches' => $played_matches
         ];
     }
 
@@ -71,6 +61,10 @@ abstract class PlayStrategy implements PlayStrategyInterface
 
     private function getMatch(int $index): Game
     {
-        return $this->matches[$this->current_week * $this->matches_per_week - $index];
+        $actual_matches = array_slice($this->matches,
+            ($this->current_week * $this->matches_per_week) - $this->matches_per_week,
+            $this->matches_per_week);
+
+        return $actual_matches[$index];
     }
 }
