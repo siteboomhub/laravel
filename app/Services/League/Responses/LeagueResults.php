@@ -2,6 +2,7 @@
 
 namespace App\Services\League\Responses;
 
+use Illuminate\Support\Arr;
 use JetBrains\PhpStorm\ArrayShape;
 use App\Services\League\Entities\League;
 use App\Services\League\Entities\Team;
@@ -20,7 +21,7 @@ class LeagueResults
 
     private function formatTeams(array $teams): array
     {
-        return array_map(function (Team $team) {
+        return array_values(array_map(function (Team $team) {
             return [
                 'name' => $team->getName(),
                 'pts' => $team->getPTS(),
@@ -31,7 +32,7 @@ class LeagueResults
                 'gd' => $team->getGD(),
                 'prediction_score' => $team->getPrediction()
             ];
-        }, $teams);
+        }, $this->sortTeams($teams)));
     }
 
     private function getLastPlayedMatches(League $league): array
@@ -53,5 +54,14 @@ class LeagueResults
         }
 
         return $results;
+    }
+
+    private function sortTeams(array $teams): array
+    {
+        usort($teams, function (Team $team1, Team $team2){
+            return $team1->getPTS() < $team2->getPTS();
+        });
+
+        return $teams;
     }
 }

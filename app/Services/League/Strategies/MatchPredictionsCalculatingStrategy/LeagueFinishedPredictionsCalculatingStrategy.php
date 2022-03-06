@@ -28,9 +28,13 @@ class LeagueFinishedPredictionsCalculatingStrategy implements PredictionsCalcula
      */
     private function getSortedTeams(array $teams): array
     {
-        return Arr::sort($teams, function (Team $team) {
-            return $team->getPTS();
+        $copied_teams = array_merge($teams, []);
+
+        usort($copied_teams, function (Team $team1, Team $team2) {
+            return $team1->getPTS() < $team2->getPTS();
         });
+
+        return $copied_teams;
     }
 
     /**
