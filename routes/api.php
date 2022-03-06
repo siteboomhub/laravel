@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::controller(\App\Http\Controllers\LeagueController::class)->prefix('league')->group(function (){
+    Route::post('/', 'create');
+    Route::get('/{leagueUUID}', 'show');
+    Route::post('/{leagueUUID}/play-week', 'playNextWeek');
+    Route::post('/{leagueUUID}/play-all-weeks', 'playAllWeeks');
 });
