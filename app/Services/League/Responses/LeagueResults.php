@@ -14,7 +14,7 @@ class LeagueResults
         return [
             'current_week' => $league->getCurrentWeek(),
             'teams' => $this->formatTeams($league->getTeams()),
-            'last_played_matches' => $league->getLastPlayedMatches()
+            'last_played_matches' => $this->getLastPlayedMatches($league)
         ];
     }
 
@@ -32,5 +32,26 @@ class LeagueResults
                 'prediction_score' => $team->getPrediction()
             ];
         }, $teams);
+    }
+
+    private function getLastPlayedMatches(League $league): array
+    {
+        $results = [];
+
+        foreach ($league->getLastPlayedMatches() as $match){
+            $teams = $match->getTeams();
+            $mappedGoals = $match->getMappedGoals();
+
+            $results[] = [
+                'first_team_name' => $teams[0]->getName(),
+                'score' => [
+                    $mappedGoals[$teams[0]->getUuid()],
+                    $mappedGoals[$teams[1]->getUuid()]
+                ],
+                'last_team_name' => $teams[1]->getName()
+            ];
+        }
+
+        return $results;
     }
 }
