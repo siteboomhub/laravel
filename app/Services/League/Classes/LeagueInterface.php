@@ -23,7 +23,7 @@ class LeagueInterface
      */
     public function createAndSave(int $matches_per_week = 2, int $teams_number = 4): string
     {
-        $this->leagueCreatingValidation->validate();
+        $this->leagueCreatingValidation->validate($matches_per_week, $teams_number);
 
         $league = $this->leagueFactory->build($matches_per_week, $teams_number);
 
