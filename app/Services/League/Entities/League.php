@@ -4,7 +4,6 @@ namespace App\Services\League\Entities;
 
 use App\Events\League\LeaguePlayedEvent;
 use App\Exceptions\League\LeagueAlreadyFinishedException;
-use App\Exceptions\League\MatchesNumberException;
 use App\Services\League\ValueObjects\LeagueCreating;
 use JetBrains\PhpStorm\Pure;
 
@@ -16,7 +15,6 @@ class League
         private array                 $last_played_matches = []
     )
     {
-        $this->checkCanCreateLeague();
     }
 
     #[Pure] public function getUuid(): string
@@ -63,22 +61,5 @@ class League
         ] = $playStrategy->play($this->getMatchesPerWeek(), $this->current_week, $this->getMatches());
 
         $this->leagueCreating->getDispatcher()->dispatch(LeaguePlayedEvent::class, $this);
-    }
-
-    /**
-     * @throws MatchesNumberException
-     */
-    private function checkCanCreateLeague()
-    {
-        $matches_number = $this->calculateMatchesNumber();
-
-        if ($this->getMatchesPerWeek() > $matches_number) {
-            throw new MatchesNumberException("Max value for matches per week is {$matches_number}");
-        }
-    }
-
-    #[Pure] private function calculateMatchesNumber(): int
-    {
-        return (count($this->getTeams()) - 1) * count($this->getTeams());
     }
 }
