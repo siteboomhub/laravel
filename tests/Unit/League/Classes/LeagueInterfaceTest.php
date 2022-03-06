@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\League\Classes;
 
+use App\Services\League\Classes\LeagueCreatingValidation;
 use App\Services\League\Entities\League;
 use App\Services\League\Classes\LeagueInterface;
 use App\Services\League\Responses\LeagueResults;
@@ -20,11 +21,13 @@ class LeagueInterfaceTest extends TestCase
         $this->leagueStorage = $this->createMock(LeagueRepository::class);
         $this->leagueFactory = $this->createMock(LeagueFactory::class);
         $leagueResults = $this->createStub(LeagueResults::class);
+        $leagueCreatingValidation = $this->createStub(LeagueCreatingValidation::class);
 
         $this->leagueInterface = new LeagueInterface(
             $this->leagueStorage,
             $this->leagueFactory,
-            $leagueResults
+            $leagueResults,
+            $leagueCreatingValidation
         );
     }
 

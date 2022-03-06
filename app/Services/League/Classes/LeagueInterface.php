@@ -11,17 +11,20 @@ class LeagueInterface
 {
     public function __construct(
         private LeagueRepository $leagueStorage,
-        private LeagueFactory $leagueFactory,
-        private LeagueResults $leagueResults
+        private LeagueFactory    $leagueFactory,
+        private LeagueResults    $leagueResults,
+        private LeagueCreatingValidation $leagueCreatingValidation
     )
     {
     }
 
     /**
-     * @throws \App\Services\League\Exceptions\MatchesNumberException
+     * @throws \App\Exceptions\League\MatchesNumberException
      */
     public function createAndSave(int $matches_per_week = 2, int $teams_number = 4): string
     {
+        $this->leagueCreatingValidation->validate();
+
         $league = $this->leagueFactory->build($matches_per_week, $teams_number);
 
         $this->leagueStorage->save($league);
