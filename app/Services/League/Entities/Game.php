@@ -4,13 +4,12 @@ namespace App\Services\League\Entities;
 
 use App\Exceptions\League\GameMembersException;
 use App\Services\League\Classes\CalculateGoals;
-use App\Services\League\Factories\CalculateGoalsFactory;
 use App\Services\League\Factories\GameTeamResultsFactory;
 use JetBrains\PhpStorm\Pure;
 
 class Game
 {
-    private CalculateGoals $goalsCalculatorService;
+
 
     private array $mappedGoals = [];
 
@@ -19,17 +18,13 @@ class Game
      */
     public function __construct(
         private array                  $teams,
-        CalculateGoalsFactory          $calculateGoalsFactory,
+        private CalculateGoals         $goalsCalculatorService,
         private GameTeamResultsFactory $gameTeamResultsFactory
     )
     {
         if (count($this->teams) !== 2) {
             throw new GameMembersException('Game members number needs be only 2');
         }
-
-        $this->goalsCalculatorService = $calculateGoalsFactory->build(
-            $this->getTeams()
-        );
     }
 
     public function getTeams(): array
@@ -44,7 +39,9 @@ class Game
 
     public function play()
     {
-        $goals = $this->goalsCalculatorService->calculate();
+        $goals = $this->goalsCalculatorService->calculate(
+            $this->getTeams()
+        );
 
         $this->mappedGoals = $this->getMappedGoalsWithTeams($goals);
 
@@ -79,7 +76,7 @@ class Game
 
         $current_teams = [];
 
-        foreach ($this->getTeams() as $team){
+        foreach ($this->getTeams() as $team) {
             $current_teams[] = $team->getUuid();
         }
 

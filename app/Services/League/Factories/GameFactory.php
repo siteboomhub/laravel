@@ -2,13 +2,14 @@
 
 namespace App\Services\League\Factories;
 
+use App\Services\League\Classes\CalculateGoals;
 use App\Services\League\Entities\Game;
 
 class GameFactory
 {
     public function __construct(
-        private CalculateGoalsFactory $calculateGoalsFactory,
-        private GameTeamResultsFactory $gameTeamResultsFactory
+        private GameTeamResultsFactory $gameTeamResultsFactory,
+        private CalculateGoals $calculateGoals
     )
     {
     }
@@ -20,7 +21,7 @@ class GameFactory
     {
         return new Game(
             $teams,
-            $this->calculateGoalsFactory,
+            $this->calculateGoals,
             $this->gameTeamResultsFactory
         );
     }

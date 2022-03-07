@@ -11,15 +11,11 @@ class CalculateGoals
     /**
      * @param \App\Services\League\Entities\Team[] $teams
      */
-    public function __construct(private array $teams)
+    public function calculate(array $teams): array
     {
-    }
+        $team_0_result = $this->calculatePoints($teams, 0);
 
-    public function calculate(): array
-    {
-        $team_0_result = $this->calculatePoints(0);
-
-        $team_1_result = $this->calculatePoints(1);
+        $team_1_result = $this->calculatePoints($teams, 1);
 
         if($team_0_result && $team_1_result){
             return [self::WON_POINT, self::WON_POINT];
@@ -33,8 +29,8 @@ class CalculateGoals
 
     }
 
-    protected function calculatePoints(int $index): bool
+    protected function calculatePoints(array $teams, int $index): bool
     {
-        return rand(1, 100) <= $this->teams[$index]->getPrediction();
+        return rand(1, 100) <= $teams[$index]->getPrediction();
     }
 }
