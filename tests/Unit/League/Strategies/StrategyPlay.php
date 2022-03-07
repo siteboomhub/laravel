@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\League\Classes;
+namespace Tests\Unit\League\Strategies;
 
 use App\Services\League\Entities\Game;
 use App\Services\League\Entities\Team;

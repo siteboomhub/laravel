@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\League\Classes;
+namespace Tests\Unit\League\Factories;
 
 use App\Services\League\Classes\CalculateGoals;
 use App\Services\League\Entities\Game;
@@ -9,12 +9,9 @@ use App\Services\League\Factories\GameTeamResultsFactory;
 use App\Services\League\Factories\MatchesPlannerFactory;
 use App\Services\League\Factories\GameFactory;
 use PHPUnit\Framework\TestCase;
-use Tests\CreatesApplication;
 
 class MatchesPlannerTest extends TestCase
 {
-    use CreatesApplication;
-
     private MatchesPlannerFactory $planner;
 
     public function expectedAmountProvider()

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\League\Classes;
+namespace Tests\Unit\League\Factories;
 
 use App\Services\League\Factories\TeamsBuilderFactory;
 use App\Exceptions\League\NotEnoughTeamsException;

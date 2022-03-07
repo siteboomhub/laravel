@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\League\Classes;
+namespace Tests\Unit\League\Repositories;
 
 use App\Services\League\Entities\League;
 use App\Services\League\Repositories\LeagueRepository;
