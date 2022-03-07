@@ -6,14 +6,13 @@ use App\Services\League\Classes\CalculateGoals;
 use App\Services\League\Entities\Game;
 use App\Services\League\Entities\Team;
 use App\Exceptions\League\GameMembersException;
-use App\Services\League\Factories\CalculateGoalsFactory;
 use App\Services\League\Factories\GameTeamResultsFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class GameTest extends TestCase
 {
-    private MockObject|CalculateGoalsFactory $calculateGoalsFactoryMock;
+    private MockObject|CalculateGoals $calculateGoalsMock;
 
     private MockObject|GameTeamResultsFactory $gameTeamResultsFactory;
 
@@ -36,9 +35,7 @@ class GameTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->calculateGoalsFactoryMock = $this
-            ->getMockBuilder(CalculateGoalsFactory::class)
-            ->getMock();
+        $this->calculateGoalsMock = $this->createStub(CalculateGoals::class);
 
         $this->gameTeamResultsFactory = $this
             ->getMockBuilder(GameTeamResultsFactory::class)
@@ -54,7 +51,7 @@ class GameTest extends TestCase
 
         new Game(
             $teams_with_wrong_number,
-            $this->calculateGoalsFactoryMock,
+            $this->calculateGoalsMock,
             $this->gameTeamResultsFactory
         );
     }
@@ -74,21 +71,13 @@ class GameTest extends TestCase
             $team1['uuid'], $team2['uuid']
         );
 
-        $calculateGoalsMock = $this->getMockBuilder(CalculateGoals::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $calculateGoalsMock->method('calculate')->willReturn([
+        $this->calculateGoalsMock->method('calculate')->willReturn([
             $team1['goals'], $team2['goals']
         ]);
 
-        $this->calculateGoalsFactoryMock->method('build')->willReturn(
-            $calculateGoalsMock
-        );
-
         $game = new Game(
             [$team, $team],
-            $this->calculateGoalsFactoryMock,
+            $this->calculateGoalsMock,
             $this->gameTeamResultsFactory
         );
 
@@ -116,7 +105,7 @@ class GameTest extends TestCase
 
         $game = new Game(
             [$team, $team],
-            $this->calculateGoalsFactoryMock,
+            $this->calculateGoalsMock,
             $this->gameTeamResultsFactory
         );
 
@@ -129,7 +118,7 @@ class GameTest extends TestCase
 
         $game = new Game(
             [$team, $team],
-            $this->calculateGoalsFactoryMock,
+            $this->calculateGoalsMock,
             $this->gameTeamResultsFactory
         );
 

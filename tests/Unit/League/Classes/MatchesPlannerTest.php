@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\League\Classes;
 
+use App\Services\League\Classes\CalculateGoals;
 use App\Services\League\Entities\Game;
 use App\Services\League\Entities\Team;
-use App\Services\League\Factories\CalculateGoalsFactory;
 use App\Services\League\Factories\GameTeamResultsFactory;
 use App\Services\League\Factories\MatchesPlannerFactory;
 use App\Services\League\Factories\GameFactory;
@@ -80,8 +80,8 @@ class MatchesPlannerTest extends TestCase
     public function testThatMatchesOrderIsCorrectly(array $teams, int $per_week)
     {
         $game_factory = new GameFactory(
-            $this->createStub(CalculateGoalsFactory::class),
             $this->createStub(GameTeamResultsFactory::class),
+            $this->createStub(CalculateGoals::class)
         );
 
         $matches_planner_factory = new MatchesPlannerFactory(
