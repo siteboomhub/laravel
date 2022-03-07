@@ -17,7 +17,7 @@ class LeagueCreatingValidation
 
         if ($teams_number / $matches_per_week < 2) {
             throw new MatchesNumberException(
-                'Teams number has to be more than amount of matches per week on 2 times'
+                'Teams number has to be more than amount of matches per week in twice'
             );
         }
     }
