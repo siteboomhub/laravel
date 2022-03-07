@@ -8,7 +8,7 @@ use App\Services\League\LeagueFacade;
 class LeagueController extends Controller
 {
     //
-    public function create(LeagueStartRequest $request)
+    public function create(LeagueStartRequest $request): string
     {
         $uuid = LeagueFacade::createAndSave(
             $request->input('games_number_per_week', 2),
@@ -20,7 +20,7 @@ class LeagueController extends Controller
         ]);
     }
 
-    public function show(string $leagueUUID)
+    public function show(string $leagueUUID): array
     {
         return LeagueFacade::getLeagueResults($leagueUUID);
     }

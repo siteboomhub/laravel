@@ -2,6 +2,7 @@
 
 namespace App\Services\League\Factories;
 
+use App\Exceptions\League\GameMembersException;
 use App\Services\League\Entities\Game;
 use App\Services\League\Entities\Team;
 use Illuminate\Support\Arr;
@@ -16,7 +17,7 @@ class MatchesPlannerFactory
      * @param Team[] $teams
      * @param int $games_per_week
      * @return array
-     * @throws \App\Exceptions\League\GameMembersException
+     * @throws GameMembersException
      */
     public function plan(array $teams, int $games_per_week): array
     {
