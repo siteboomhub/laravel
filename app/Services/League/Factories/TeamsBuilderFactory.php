@@ -30,7 +30,7 @@ class TeamsBuilderFactory
 
         $teams = [];
 
-        $default_prediction = round(100 / $teams_number);
+        $default_prediction = round(100 / $teams_number, 1);
 
         for ($i = 0; $i < $teams_number; $i++) {
             $teams[] = new Team($all_clubs[$i]['name'], $default_prediction);
