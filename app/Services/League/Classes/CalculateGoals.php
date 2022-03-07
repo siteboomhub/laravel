@@ -2,6 +2,8 @@
 
 namespace App\Services\League\Classes;
 
+use App\Services\League\Entities\Team;
+
 class CalculateGoals
 {
     private const WON_POINT = 3;
@@ -9,7 +11,7 @@ class CalculateGoals
     private const LOSE_POINT = 2;
 
     /**
-     * @param \App\Services\League\Entities\Team[] $teams
+     * @param Team[] $teams
      */
     public function calculate(array $teams): array
     {

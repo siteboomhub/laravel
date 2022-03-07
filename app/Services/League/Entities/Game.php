@@ -15,6 +15,7 @@ class Game
 
     /**
      * @param Team[] $teams
+     * @throws GameMembersException
      */
     public function __construct(
         private array                  $teams,

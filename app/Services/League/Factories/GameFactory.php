@@ -2,6 +2,7 @@
 
 namespace App\Services\League\Factories;
 
+use App\Exceptions\League\GameMembersException;
 use App\Services\League\Classes\CalculateGoals;
 use App\Services\League\Entities\Game;
 
@@ -15,7 +16,7 @@ class GameFactory
     }
 
     /**
-     * @throws \App\Exceptions\League\GameMembersException
+     * @throws GameMembersException
      */
     public function build(array $teams): Game
     {

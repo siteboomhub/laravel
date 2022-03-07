@@ -16,6 +16,7 @@ class MatchesPlannerFactory
      * @param Team[] $teams
      * @param int $games_per_week
      * @return array
+     * @throws \App\Exceptions\League\GameMembersException
      */
     public function plan(array $teams, int $games_per_week): array
     {

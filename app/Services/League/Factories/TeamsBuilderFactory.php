@@ -18,7 +18,7 @@ class TeamsBuilderFactory
     }
 
     /**
-     * @throws \Exception
+     * @throws FileNotFoundException|NotEnoughTeamsException
      */
     public function build(int $teams_number): array
     {
@@ -44,7 +44,7 @@ class TeamsBuilderFactory
         try {
             return json_decode($this->storage->get(self::CLUBS_FILE_PATH), true);
         } catch (FileNotFoundException) {
-            throw new \Exception('Please, check clubs file is exists');
+            throw new FileNotFoundException('Please, check clubs file is exists');
         }
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Services\League\Classes;
 
+use App\Exceptions\League\AmountOfTeamsOnlyOddException;
+use App\Exceptions\League\MatchesNumberException;
 use App\Services\League\Factories\LeagueFactory;
 use App\Services\League\Repositories\LeagueRepository;
 use App\Services\League\Responses\LeagueResults;
@@ -19,7 +21,8 @@ class LeagueInterface
     }
 
     /**
-     * @throws \App\Exceptions\League\MatchesNumberException
+     * @throws MatchesNumberException|AmountOfTeamsOnlyOddException
+     * @throws AmountOfTeamsOnlyOddException
      */
     public function createAndSave(int $matches_per_week = 2, int $teams_number = 4): string
     {

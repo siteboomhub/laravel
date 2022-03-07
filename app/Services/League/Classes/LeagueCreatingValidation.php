@@ -11,7 +11,7 @@ class LeagueCreatingValidation
     {
         if($teams_number % 2 !== 0){
             throw new AmountOfTeamsOnlyOddException(
-                'Teams number has to be oddd only'
+                'Teams number has to be odd only'
             );
         }
 

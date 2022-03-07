@@ -2,7 +2,6 @@
 
 namespace App\Services\League\Responses;
 
-use Illuminate\Support\Arr;
 use JetBrains\PhpStorm\ArrayShape;
 use App\Services\League\Entities\League;
 use App\Services\League\Entities\Team;
