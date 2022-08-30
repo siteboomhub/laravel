@@ -2,6 +2,7 @@
 
 namespace App\Services\League\Factories;
 
+use App\Exceptions\League\GameMembersException;
 use App\Exceptions\League\NotEnoughTeamsException;
 use App\Services\League\Entities\League;
 use App\Services\League\Entities\Team;
@@ -19,7 +20,7 @@ class LeagueFactory
 
     /**
      * @throws FileNotFoundException
-     * @throws NotEnoughTeamsException
+     * @throws NotEnoughTeamsException|GameMembersException
      */
     public function build(LeagueConfiguration $leagueConfiguration): League
     {

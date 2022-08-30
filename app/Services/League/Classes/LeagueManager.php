@@ -4,12 +4,15 @@ namespace App\Services\League\Classes;
 
 use App\Events\League\LeaguePlayedEvent;
 use App\Exceptions\League\AmountOfTeamsOnlyOddException;
+use App\Exceptions\League\GameMembersException;
 use App\Exceptions\League\LeagueAlreadyFinishedException;
 use App\Exceptions\League\MatchesNumberException;
+use App\Exceptions\League\NotEnoughTeamsException;
 use App\Services\League\Factories\LeagueFactory;
 use App\Services\League\Repositories\LeagueRepository;
 use App\Services\League\Responses\LeagueResults;
 use App\Services\League\ValueObjects\LeagueConfiguration;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use JetBrains\PhpStorm\ArrayShape;
 use Illuminate\Contracts\Events\Dispatcher;
 
@@ -25,9 +28,13 @@ class LeagueManager
     {
     }
 
+
     /**
-     * @throws MatchesNumberException|AmountOfTeamsOnlyOddException
+     * @throws GameMembersException
      * @throws AmountOfTeamsOnlyOddException
+     * @throws FileNotFoundException
+     * @throws NotEnoughTeamsException
+     * @throws MatchesNumberException
      */
     public function createAndSave(int $games_per_week = 2, int $teams_number = 4): string
     {
