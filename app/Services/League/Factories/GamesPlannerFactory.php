@@ -23,7 +23,11 @@ class GamesPlannerFactory
 
         foreach ($shuffled_teams as $team_1) {
             foreach ($shuffled_teams as $team_2) {
-                if ($team_1 === $team_2) {
+                /**
+                 * @var Team $team_1
+                 * @var Team $team_2
+                 */
+                if ($team_1->equals($team_2)) {
                     continue;
                 } else {
                     $games[] = new Game([$team_1, $team_2]);

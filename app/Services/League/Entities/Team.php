@@ -72,4 +72,9 @@ class Team
             $this->drawn++;
         }
     }
+
+    public function equals(Team $team): bool
+    {
+        return $this->uid->equals($team->uid);
+    }
 }

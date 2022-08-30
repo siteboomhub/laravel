@@ -25,16 +25,12 @@ class Game
     {
         $result = true;
 
-        $current_teams = [];
-
-        foreach ($this->teams as $team) {
-            $current_teams[] = $team->uid;
-        }
-
-        foreach ($game->teams as $team) {
-            if (in_array($team->uid, $current_teams)) {
-                $result = false;
-                break;
+        foreach ($game->teams as $game_team) {
+            foreach ($this->teams as $current_team) {
+                if ($current_team->equals($game_team)) {
+                    $result = false;
+                    break 2;
+                }
             }
         }
 
