@@ -63,7 +63,7 @@ class LeagueManager
 
         $this->leagueRepository->save($league);
 
-        $this->dispatcher->dispatch(LeaguePlayedEvent::class, $league->uid);
+        $this->dispatcher->dispatch(LeaguePlayedEvent::class, $league->uid->value);
     }
 
     #[ArrayShape(['current_week' => "int", 'teams' => "array"])]

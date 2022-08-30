@@ -12,7 +12,7 @@ class LeaguePlayedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    #[Pure] public function __construct(private readonly Uid $uid)
+    #[Pure] public function __construct(public readonly string $uid)
     {
     }
 }

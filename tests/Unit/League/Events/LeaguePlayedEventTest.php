@@ -4,42 +4,19 @@ namespace Tests\Unit\League\Events;
 
 use App\Services\League\Entities\League;
 use App\Events\League\LeaguePlayedEvent;
-use App\Services\League\Repositories\LeagueRepository;
+use App\Services\League\Repositories\LeagueCacheRepository;
+use App\Services\League\ValueObjects\Uid;
 use Illuminate\Contracts\Cache\Repository;
 use PHPUnit\Framework\TestCase;
 
 class LeaguePlayedEventTest extends TestCase
 {
-    /**
-     * @var Repository|mixed|\PHPUnit\Framework\MockObject\Stub
-     */
-    private mixed $storage;
-
-    public function provider()
+    public function testThatTeamsAreSet()
     {
-        return [
-            [ ['team 1'], ['team 2'] ]
-        ];
-    }
+        $uid = uniqid();
 
-    protected function setUp(): void
-    {
-        $this->storage = $this->createStub(LeagueRepository::class);
-    }
+        $event = new LeaguePlayedEvent($uid);
 
-    /**
-     * @dataProvider provider
-     */
-    public function testThatTeamsAreSet($teams)
-    {
-        $league = $this->createStub(League::class);
-
-        $league->method('getTeams')->willReturn($teams);
-
-        $this->storage->method('get')->willReturn($league);
-
-        $leaguePlayedEvent = new LeaguePlayedEvent($league);
-
-        $this->assertEquals($teams, $leaguePlayedEvent->getTeams());
+        $this->assertEquals($event->uid, $uid);
     }
 }
