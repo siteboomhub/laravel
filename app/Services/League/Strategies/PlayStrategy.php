@@ -19,7 +19,7 @@ abstract class PlayStrategy implements PlayStrategyInterface
     {
     }
 
-    #[ArrayShape(['week' => "int", 'games' => "array"])] public function play(
+    #[ArrayShape(['week' => "int", 'last_played_matches' => "array"])] public function play(
         int $games_per_week,
         int $current_week,
         array $games

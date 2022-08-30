@@ -17,11 +17,11 @@ class LeagueResultsTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->league = $this->createMock(League::class);
-
         $this->team = $this->createMock(Team::class);
 
-        $this->league->method('getTeams')->willReturn([$this->team]);
+        $this->league = $this->getMockBuilder(League::class)
+            ->setConstructorArgs([uniqid(), [$this->team], 2, []])
+            ->getMock();
 
         $this->leagueResults = new LeagueResults();
     }
@@ -51,7 +51,6 @@ class LeagueResultsTest extends TestCase
             $this->assertArrayHasKey('drawn', $team);
             $this->assertArrayHasKey('lost', $team);
             $this->assertArrayHasKey('gd', $team);
-            $this->assertArrayHasKey('prediction_score', $team);
         }
     }
 
@@ -61,7 +60,7 @@ class LeagueResultsTest extends TestCase
      */
     public function testThatResultsAreCorrect($current_week)
     {
-        $this->league->method('getCurrentWeek')->willReturn($current_week);
+        $this->league->method('currentWeek')->willReturn($current_week);
 
         $results = $this->leagueResults->build(
             $this->league
