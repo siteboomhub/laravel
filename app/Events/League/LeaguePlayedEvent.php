@@ -2,8 +2,7 @@
 
 namespace App\Events\League;
 
-use App\Services\League\Entities\League;
-use App\Services\League\Entities\Team;
+use App\Services\League\ValueObjects\Uid;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -13,18 +12,7 @@ class LeaguePlayedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private array $teams;
-
-    #[Pure] public function __construct(private League $league)
+    #[Pure] public function __construct(private readonly Uid $uid)
     {
-        $this->teams = $this->league->getTeams();
-    }
-
-    /**
-     * @return Team[]
-     */
-    public function getTeams(): array
-    {
-        return $this->teams;
     }
 }

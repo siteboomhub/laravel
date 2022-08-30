@@ -12,8 +12,8 @@ class LeagueResults
     public function build(League $league): array
     {
         return [
-            'current_week' => $league->getCurrentWeek(),
-            'teams' => $this->formatTeams($league->getTeams()),
+            'current_week' => $league->currentWeek(),
+            'teams' => $this->formatTeams($league->teams),
             'last_played_matches' => $this->getLastPlayedMatches($league)
         ];
     }
@@ -22,14 +22,13 @@ class LeagueResults
     {
         return array_values(array_map(function (Team $team) {
             return [
-                'name' => $team->getName(),
-                'pts' => $team->getPTS(),
-                'played' => $team->getPlayed(),
-                'won' => $team->getWon(),
-                'drawn' => $team->getDrawn(),
-                'lost' => $team->getLost(),
-                'gd' => $team->getGD(),
-                'prediction_score' => $team->getPrediction()
+                'name' => $team->name(),
+                'pts' => $team->pts(),
+                'played' => $team->played(),
+                'won' => $team->won(),
+                'drawn' => $team->drawn(),
+                'lost' => $team->lost(),
+                'gd' => $team->gd()
             ];
         }, $this->sortTeams($teams)));
     }
@@ -38,17 +37,17 @@ class LeagueResults
     {
         $results = [];
 
-        foreach ($league->getLastPlayedMatches() as $match){
-            $teams = $match->getTeams();
+        foreach ($league->lastPlayedMatches() as $match){
+            $teams = $match->teams;
             $mappedGoals = $match->getMappedGoals();
 
             $results[] = [
-                'first_team_name' => $teams[0]->getName(),
+                'first_team_name' => $teams[0]->name(),
                 'score' => [
-                    $mappedGoals[$teams[0]->getUuid()],
-                    $mappedGoals[$teams[1]->getUuid()]
+                    $mappedGoals[$teams[0]->uid->value],
+                    $mappedGoals[$teams[1]->uid->value]
                 ],
-                'last_team_name' => $teams[1]->getName()
+                'last_team_name' => $teams[1]->name()
             ];
         }
 
@@ -58,7 +57,7 @@ class LeagueResults
     private function sortTeams(array $teams): array
     {
         usort($teams, function (Team $team1, Team $team2){
-            return $team1->getPTS() < $team2->getPTS();
+            return $team1->pts() < $team2->pts();
         });
 
         return $teams;

@@ -2,72 +2,50 @@
 
 namespace App\Services\League\Entities;
 
-use App\Events\League\LeaguePlayedEvent;
-use App\Exceptions\League\LeagueAlreadyFinishedException;
-use App\Services\League\ValueObjects\LeagueCreating;
-use JetBrains\PhpStorm\Pure;
+use App\Services\League\ValueObjects\Uid;
 
 class League
 {
+    public readonly Uid $uid;
+    private array $last_played_matches = [];
+
     public function __construct(
-        private LeagueCreating        $leagueCreating,
-        private int                   $current_week = 0,
-        private array                 $last_played_matches = []
+        string                $uid,
+        public readonly array $teams,
+        public readonly int   $games_per_week,
+        public readonly array $games,
+
+        private int           $current_week = 0
     )
     {
+        $this->uid = new Uid($uid);
     }
 
-    #[Pure] public function getUuid(): string
+    public function isLeagueFinished(): bool
     {
-        return $this->leagueCreating->getUuid();
+        return $this->current_week === count($this->games) / $this->games_per_week;
     }
 
-    #[Pure] public function getTeams(): array
-    {
-        return $this->leagueCreating->getTeams();
-    }
-
-    public function getCurrentWeek(): int
+    public function currentWeek(): int
     {
         return $this->current_week;
     }
 
-    #[Pure] public function getMatches(): array
+    public function setCurrentWeek(int $current_week): void
     {
-        return $this->leagueCreating->getMatches();
-    }
-
-    #[Pure] public function getMatchesPerWeek(): int
-    {
-        return $this->leagueCreating->getMatchesPerWeek();
-    }
-
-    #[Pure] public function isLeagueFinished(): bool
-    {
-        return $this->current_week === count($this->getMatches()) / $this->getMatchesPerWeek();
+        $this->current_week = $current_week;
     }
 
     /**
      * @return Game[]
      */
-    public function getLastPlayedMatches(): array
+    public function lastPlayedMatches(): array
     {
         return $this->last_played_matches;
     }
 
-    public function play(string $type = 'week')
+    public function setLastPlayedMatches(array $last_played_matches): void
     {
-        if ($this->isLeagueFinished()) {
-            throw new LeagueAlreadyFinishedException('This League already finished');
-        }
-
-        $playStrategy = $this->leagueCreating->getPlayStrategyResolver()->resolve($type);
-
-        [
-            'matches' => $this->last_played_matches,
-            'week' => $this->current_week
-        ] = $playStrategy->play($this->getMatchesPerWeek(), $this->current_week, $this->getMatches());
-
-        $this->leagueCreating->getDispatcher()->dispatch(LeaguePlayedEvent::class, $this);
+        $this->last_played_matches = $last_played_matches;
     }
 }

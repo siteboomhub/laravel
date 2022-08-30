@@ -7,12 +7,8 @@ use App\Services\League\Entities\Game;
 use App\Services\League\Entities\Team;
 use Illuminate\Support\Arr;
 
-class MatchesPlannerFactory
+class GamesPlannerFactory
 {
-    public function __construct(private GameFactory $gameFactory)
-    {
-    }
-
     /**
      * @param Team[] $teams
      * @param int $games_per_week
@@ -23,47 +19,47 @@ class MatchesPlannerFactory
     {
         $shuffled_teams = Arr::shuffle($teams);
 
-        $matches = [];
+        $games = [];
 
         foreach ($shuffled_teams as $team_1) {
             foreach ($shuffled_teams as $team_2) {
                 if ($team_1 === $team_2) {
                     continue;
                 } else {
-                    $matches[] = $this->gameFactory->build([$team_1, $team_2]);
+                    $games[] = new Game([$team_1, $team_2]);
                 }
             }
         }
 
-        return $this->orderMatches($matches, $games_per_week);
+        return $this->orderMatches($games, $games_per_week);
     }
 
     /**
-     * @param Game[] $matches
+     * @param Game[] $games
      * @param int $games_per_week
      * @return array
      */
-    private function orderMatches(array $matches, int $games_per_week): array
+    private function orderMatches(array $games, int $games_per_week): array
     {
-        $matches_amount = count($matches);
+        $games_amount = count($games);
 
         $i = 0;
 
-        while ($i < $matches_amount - 1) {
+        while ($i < $games_amount - 1) {
 
-            if ( ($i === 0 || $i % $games_per_week - 1 !== 0) && !$matches[$i + 1]->areTeamsDifferent($matches[$i])) {
+            if (($i === 0 || $i % $games_per_week - 1 !== 0) && !$games[$i + 1]->areTeamsDifferent($games[$i])) {
 
                 $j = $i + 2;
 
-                while ($j < $matches_amount) {
+                while ($j < $games_amount) {
 
-                    if ($matches[$i]->areTeamsDifferent($matches[$j])) {
+                    if ($games[$i]->areTeamsDifferent($games[$j])) {
 
-                        $c = $matches[$i + 1];
+                        $c = $games[$i + 1];
 
-                        $matches[$i + 1] = $matches[$j];
+                        $games[$i + 1] = $games[$j];
 
-                        $matches[$j] = $c;
+                        $games[$j] = $c;
 
                         break;
 
@@ -77,6 +73,6 @@ class MatchesPlannerFactory
             $i++;
         }
 
-        return $matches;
+        return $games;
     }
 }

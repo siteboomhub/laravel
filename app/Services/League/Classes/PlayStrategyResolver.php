@@ -8,11 +8,17 @@ use App\Services\League\Strategies\PlayWeekStrategy;
 
 class PlayStrategyResolver
 {
+    public function __construct(
+        private readonly CalculateGoals $calculateGoalsService
+    )
+    {
+    }
+
     public function resolve(string $type): PlayStrategyInterface
     {
         return match ($type){
-            'week' => new PlayWeekStrategy(),
-            'all' => new PlayNextAllStrategy()
+            'week' => new PlayWeekStrategy($this->calculateGoalsService),
+            'all' => new PlayNextAllStrategy($this->calculateGoalsService)
         };
     }
 }

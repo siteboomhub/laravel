@@ -2,22 +2,19 @@
 
 namespace App\Services\League\Classes;
 
-use App\Services\League\Entities\Team;
-
 class CalculateGoals
 {
     private const WON_POINT = 3;
 
     private const LOSE_POINT = 2;
 
-    /**
-     * @param Team[] $teams
-     */
-    public function calculate(array $teams): array
-    {
-        $team_0_result = $this->calculatePoints($teams, 0);
+    private const PREDICTION = 50;
 
-        $team_1_result = $this->calculatePoints($teams, 1);
+    public function calculate(): array
+    {
+        $team_0_result = $this->calculatePoints();
+
+        $team_1_result = $this->calculatePoints();
 
         if($team_0_result && $team_1_result){
             return [self::WON_POINT, self::WON_POINT];
@@ -31,8 +28,8 @@ class CalculateGoals
 
     }
 
-    protected function calculatePoints(array $teams, int $index): bool
+    protected function calculatePoints(): bool
     {
-        return rand(1, 100) <= $teams[$index]->getPrediction();
+        return rand(1, 100) >= self::PREDICTION;
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Events\League\LeaguePlayedEvent;
-use App\Listeners\League\CalculatePredictions;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -20,7 +19,8 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         LeaguePlayedEvent::class => [
-            CalculatePredictions::class
+            //send notification
+            //CalculatePredictions::class
         ]
     ];
 

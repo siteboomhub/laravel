@@ -13,7 +13,7 @@ class TeamsBuilderFactory
 {
     private const CLUBS_FILE_PATH = 'public/league-clubs.json';
 
-    public function __construct(private Filesystem $storage)
+    public function __construct(private readonly Filesystem $storage)
     {
     }
 
@@ -39,6 +39,9 @@ class TeamsBuilderFactory
         return $teams;
     }
 
+    /**
+     * @throws FileNotFoundException
+     */
     private function getClubsContent(): array
     {
         try {

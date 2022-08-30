@@ -2,79 +2,60 @@
 
 namespace App\Services\League\Entities;
 
+use App\Services\League\ValueObjects\GameTeamResults;
+use App\Services\League\ValueObjects\Uid;
+
 class Team
 {
-    private string $uuid;
-
+    public readonly Uid $uid;
     private int $played = 0;
-
     private int $won = 0;
-
     private int $drawn = 0;
-
     private int $lost = 0;
-
     private int $pts = 0;
-
     private int $gd = 0;
 
-    public function __construct(private string $name, private float $prediction)
+    public function __construct(private readonly string $name)
     {
-        $this->uuid = uniqid();
+        $this->uid = new Uid(uniqid());
     }
 
-    public function getUuid(): string
-    {
-        return $this->uuid;
-    }
-
-    public function getName(): string
+    public function name(): string
     {
         return $this->name;
     }
 
-    public function getPrediction(): float
-    {
-        return $this->prediction;
-    }
-
-    public function getPTS(): int
+    public function pts(): int
     {
         return $this->pts;
     }
 
-    public function getPlayed(): int
+    public function played(): int
     {
         return $this->played;
     }
 
-    public function getWon(): int
+    public function won(): int
     {
         return $this->won;
     }
 
-    public function getDrawn(): int
+    public function drawn(): int
     {
         return $this->drawn;
     }
 
-    public function getLost(): int
+    public function lost(): int
     {
         return $this->lost;
     }
 
-    public function getGd(): int
+    public function gd(): int
     {
         return $this->gd;
     }
 
-
-    public function setPrediction(float $value)
-    {
-        $this->prediction = round($value, 1);
-    }
-
-    public function addGameResults(GameTeamResults $gameTeamResults)
+    public function addGameResults(GameTeamResults $gameTeamResults): void
     {
         $this->played++;
 

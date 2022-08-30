@@ -20,18 +20,18 @@ class LeagueController extends Controller
         ]);
     }
 
-    public function show(string $leagueUUID): array
+    public function show(string $leagueUID): array
     {
-        return LeagueFacade::getLeagueResults($leagueUUID);
+        return LeagueFacade::getLeagueResults($leagueUID);
     }
 
-    public function playNextWeek(string $leagueUUID)
+    public function playNextWeek(string $leagueUID)
     {
-        LeagueFacade::playWeek($leagueUUID);
+        LeagueFacade::play($leagueUID);
     }
 
-    public function playAllWeeks(string $leagueUUID)
+    public function playAllWeeks(string $leagueUID)
     {
-        LeagueFacade::playAllWeeks($leagueUUID);
+        LeagueFacade::play($leagueUID, 'all');
     }
 }

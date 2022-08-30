@@ -5,8 +5,8 @@ namespace App\Services\League\Strategies;
 interface PlayStrategyInterface
 {
     public function play(
-        int $matches_per_week,
+        int $games_per_week,
         int $current_week,
-        array $matches
+        array $games
     ): array;
 }

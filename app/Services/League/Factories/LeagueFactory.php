@@ -2,35 +2,39 @@
 
 namespace App\Services\League\Factories;
 
+use App\Exceptions\League\NotEnoughTeamsException;
 use App\Services\League\Entities\League;
-use App\Services\League\Classes\PlayStrategyResolver;
-use App\Services\League\ValueObjects\LeagueCreating;
-use Illuminate\Contracts\Events\Dispatcher;
+use App\Services\League\Entities\Team;
+use App\Services\League\ValueObjects\LeagueConfiguration;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class LeagueFactory
 {
     public function __construct(
-        private Dispatcher            $dispatcher,
-        private PlayStrategyResolver  $playStrategyResolver,
-        private MatchesPlannerFactory $matchesPlannerFactory,
-        private TeamsBuilderFactory   $teamsBuilder
+        private readonly TeamsBuilderFactory $teamsBuilder,
+        private readonly GamesPlannerFactory $gamesPlannerFactory
     )
     {
     }
 
-    public function build(int $matches_per_week, int $teams_number): League
+    /**
+     * @throws FileNotFoundException
+     * @throws NotEnoughTeamsException
+     */
+    public function build(LeagueConfiguration $leagueConfiguration): League
     {
-        $teams = $this->teamsBuilder->build($teams_number);
+        /**
+         * @var Team[] $teams
+         */
+        $teams = $this->teamsBuilder->build($leagueConfiguration->teams_number);
+
+        $games = $this->gamesPlannerFactory->plan($teams, $leagueConfiguration->games_per_week);
 
         return new League(
-            new LeagueCreating(
-                uniqid(),
-                $teams,
-                $this->playStrategyResolver,
-                $this->dispatcher,
-                $matches_per_week,
-                $this->matchesPlannerFactory->plan($teams, $matches_per_week)
-            ),
+            uniqid(),
+            $teams,
+            $leagueConfiguration->games_per_week,
+            $games
         );
     }
 }

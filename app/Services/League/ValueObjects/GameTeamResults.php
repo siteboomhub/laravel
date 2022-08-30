@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\League\Entities;
+namespace App\Services\League\ValueObjects;
 
 class GameTeamResults
 {
@@ -12,7 +12,7 @@ class GameTeamResults
 
     private int $pts;
 
-    public function __construct(private array $goals, private string $team_uuid)
+    public function __construct(private readonly array $goals, private readonly string $team_uid)
     {
         $this->gd = $this->calculateTeamGoalDifference();
         $this->pts = $this->calculateTeamPTS();
@@ -56,13 +56,13 @@ class GameTeamResults
     {
         $max_goals = max($this->goals);
 
-        return min($this->goals) !== $max_goals && $max_goals === $this->goals[$this->team_uuid];
+        return min($this->goals) !== $max_goals && $max_goals === $this->goals[$this->team_uid];
     }
 
     private function isTeamLoser(): bool
     {
         $min_goals = min($this->goals);
 
-        return max($this->goals) !== $min_goals && $min_goals === $this->goals[$this->team_uuid];
+        return max($this->goals) !== $min_goals && $min_goals === $this->goals[$this->team_uid];
     }
 }
