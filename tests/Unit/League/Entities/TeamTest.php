@@ -2,9 +2,10 @@
 
 namespace Tests\Unit\League\Entities;
 
-use App\Services\League\Entities\GameTeamResults;
-use App\Services\League\Entities\Team;
 
+use App\Services\League\Entities\Team;
+use App\Services\League\ValueObjects\GameTeamResults;
+use App\Services\League\ValueObjects\Uid;
 use PHPUnit\Framework\TestCase;
 
 class TeamTest extends TestCase
@@ -15,50 +16,43 @@ class TeamTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->team = new Team('Manchester', 12);
+        $this->team = new Team('Manchester');
         $this->gameTeamResults = $this->createStub(GameTeamResults::class);
-    }
-
-    public function testThatPredictionIsCorrect()
-    {
-        $this->team->setPrediction(12);
-
-        $this->assertEquals(12, $this->team->getPrediction());
     }
 
     public function testThatNameIsCorrect()
     {
-        $this->assertEquals('Manchester', $this->team->getName());
+        $this->assertEquals('Manchester', $this->team->name());
     }
 
     public function testThatUuidIsString()
     {
-        $this->assertIsString($this->team->getUuid());
+        $this->assertInstanceOf(Uid::class, $this->team->uid);
     }
 
     public function testThatPtsIsInteger()
     {
-        $this->assertIsInt($this->team->getPTS());
+        $this->assertIsInt($this->team->pts());
     }
 
     public function testThatGDIsInteger()
     {
-        $this->assertIsInt($this->team->getGd());
+        $this->assertIsInt($this->team->gd());
     }
 
     public function testNewGameWon()
     {
-        $played = $this->team->getPlayed();
+        $played = $this->team->played();
 
         $this->gameTeamResults->method('getGd')->willReturn(1);
         $this->gameTeamResults->method('getPts')->willReturn(3);
 
         $this->team->addGameResults($this->gameTeamResults);
 
-        $this->assertNotEquals($played, $this->team->getPlayed());
-        $this->assertEquals(1, $this->team->getGd());
-        $this->assertEquals(3, $this->team->getPTS());
-        $this->assertEquals(1, $this->team->getWon());
+        $this->assertNotEquals($played, $this->team->played());
+        $this->assertEquals(1, $this->team->gd());
+        $this->assertEquals(3, $this->team->pts());
+        $this->assertEquals(1, $this->team->won());
     }
 
     public function testNewFailGame()
@@ -67,8 +61,8 @@ class TeamTest extends TestCase
 
         $this->team->addGameResults($this->gameTeamResults);
 
-        $this->assertEquals(-1, $this->team->getGd());
-        $this->assertEquals(1, $this->team->getLost());
+        $this->assertEquals(-1, $this->team->gd());
+        $this->assertEquals(1, $this->team->lost());
 
     }
 
@@ -78,7 +72,7 @@ class TeamTest extends TestCase
 
         $this->team->addGameResults($this->gameTeamResults);
 
-        $this->assertEquals(0, $this->team->getGd());
-        $this->assertEquals(1, $this->team->getDrawn());
+        $this->assertEquals(0, $this->team->gd());
+        $this->assertEquals(1, $this->team->drawn());
     }
 }
