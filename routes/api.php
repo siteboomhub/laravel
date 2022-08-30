@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LeagueController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,9 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::controller(\App\Http\Controllers\LeagueController::class)->prefix('league')->group(function (){
-    Route::post('/', 'create');
-    Route::get('/{leagueUUID}', 'show');
-    Route::post('/{leagueUUID}/play-week', 'playNextWeek');
-    Route::post('/{leagueUUID}/play-all-weeks', 'playAllWeeks');
+Route::prefix('league')->group(function (){
+    Route::post('/', [LeagueController::class, 'create']);
+    Route::get('/{leagueUID}', [LeagueController::class, 'show']);
+    Route::post('/{leagueUID}/play-week', [LeagueController::class, 'playNextWeek']);
+    Route::post('/{leagueUID}/play-all-weeks', [LeagueController::class, 'playAllWeeks']);
 });
