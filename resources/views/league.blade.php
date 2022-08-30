@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row my-5">
-            <div class="col-9">
+            <div class="col-12">
                 <table class="table table-bordered">
                     <thead>
                     <tr>
@@ -74,31 +74,6 @@
                     </tfoot>
                 </table>
             </div>
-            <div class="col-3">
-                <table class="table table-bordered w-100">
-                    <tr>
-                        <td colspan="3" class="text-center">
-                            <div class="js-with-matches">
-                                <span class="js-current-week">0</span><sup>th</sup> Week Predictions Of Championship
-                            </div>
-                            <div class="js-no-matches">
-                                Predictions Of Championship
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <table class="table table-condensed w-100 px-3" id="predictions">
-                                <tbody>
-                                <tr>
-                                    <td></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </div>
         </div>
     </div>
     <script>
@@ -107,9 +82,7 @@
             $.get('/api/league/{{ request()->route()->parameter('leagueUUID') }}').then(function (league) {
 
                 let teamsHtml = ''
-
-                let predictionsHtml = ''
-
+                
                 league.teams.forEach(function (team) {
                     teamsHtml += "<tr>" +
                         "<td>" + team.name + "</td>" +
@@ -120,15 +93,9 @@
                         "<td>" + team.lost + "</td>" +
                         "<td>" + team.gd + "</td>" +
                         "</tr>"
-
-                    predictionsHtml += "<tr>" +
-                        "<td>" + team.name + "</td>" +
-                        "<td>%" + team.prediction_score + "</td>" +
-                        "</tr>"
                 })
 
                 $('#teams').find('tbody').html(teamsHtml)
-                $('#predictions').find('tbody').html(predictionsHtml)
 
                 if (league.current_week > 0) {
                     $('.js-current-week').text(league.current_week)
