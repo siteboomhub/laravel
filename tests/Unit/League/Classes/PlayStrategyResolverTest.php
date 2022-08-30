@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\League\Classes;
 
+use App\Services\League\Classes\CalculateGoals;
 use App\Services\League\Classes\PlayStrategyResolver;
 use App\Services\League\Strategies\PlayStrategyInterface;
 use PHPUnit\Framework\TestCase;
@@ -21,7 +22,9 @@ class PlayStrategyResolverTest extends TestCase
      */
     public function testThatReturnCorrectObject($type)
     {
-        $playStrategyResolver = new PlayStrategyResolver();
+        $mockCalculateGoalsService = $this->createMock(CalculateGoals::class);
+
+        $playStrategyResolver = new PlayStrategyResolver($mockCalculateGoalsService);
 
         $result = $playStrategyResolver
             ->resolve($type);
