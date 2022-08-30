@@ -82,7 +82,7 @@
             $.get('/api/league/{{ request()->route()->parameter('leagueUUID') }}').then(function (league) {
 
                 let teamsHtml = ''
-                
+
                 league.teams.forEach(function (team) {
                     teamsHtml += "<tr>" +
                         "<td>" + team.name + "</td>" +
